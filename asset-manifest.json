@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.js": "/static/js/main.c289bafc.chunk.js",
+    "main.js.map": "/static/js/main.c289bafc.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b28561ae.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b28561ae.js.map",
+    "static/js/2.86b3d641.chunk.js": "/static/js/2.86b3d641.chunk.js",
+    "static/js/2.86b3d641.chunk.js.map": "/static/js/2.86b3d641.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.c68a1425524b06225bd6c4b0132ecbc6.js": "/precache-manifest.c68a1425524b06225bd6c4b0132ecbc6.js",
+    "service-worker.js": "/service-worker.js",
+    "static/js/2.86b3d641.chunk.js.LICENSE.txt": "/static/js/2.86b3d641.chunk.js.LICENSE.txt",
+    "static/media/angular.svg": "/static/media/angular.ddac8f75.svg",
+    "static/media/css.svg": "/static/media/css.0684e470.svg",
+    "static/media/git.svg": "/static/media/git.a5e61872.svg",
+    "static/media/github.svg": "/static/media/github.8136d6ce.svg",
+    "static/media/gitlab.svg": "/static/media/gitlab.eef1b72c.svg",
+    "static/media/html.svg": "/static/media/html.f6d74cb1.svg",
+    "static/media/javascript.svg": "/static/media/javascript.a745037d.svg",
+    "static/media/profile.jpg": "/static/media/profile.27c9cccb.jpg",
+    "static/media/react.svg": "/static/media/react.7daf3d1e.svg",
+    "static/media/vue.svg": "/static/media/vue.e33f3b82.svg",
+    "static/media/webpack.svg": "/static/media/webpack.f5d2d690.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b28561ae.js",
+    "static/js/2.86b3d641.chunk.js",
+    "static/js/main.c289bafc.chunk.js"
+  ]
+}
