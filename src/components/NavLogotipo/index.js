@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { store, actions } from "../../store";
+import { useScrollContext } from '../../context/scroll' 
+import actions from '../../context/scroll/enum/actions'
 
 import * as S from "./styles";
 
@@ -23,7 +24,7 @@ if (useColored) {
 }
 
 export default () => {
-  const { state, dispatch } = useContext(store);
+  const { state, dispatch } = useScrollContext();
 
   const handleLogoClick = () => {
     if (state.content.currentIndex === 0) return;

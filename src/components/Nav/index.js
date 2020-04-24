@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { store, actions } from "../../store";
+import { useScrollContext } from '../../context/scroll' 
+import actions from '../../context/scroll/enum/actions'
 
 import Logo from "../NavLogotipo";
-
 import Button from "../Button";
 
 import * as S from "./styles";
 
 export default () => {
-  const { state, dispatch } = useContext(store);
+  const { state, dispatch } = useScrollContext();
   return (
     <S.NavWrapper>
       <S.NavContainer>

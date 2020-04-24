@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
-import { store } from "../../store";
+import { useScrollContext } from '../../context/scroll/index' 
 
 import About from "../About";
 import Skills from "../Skills";
@@ -8,7 +8,7 @@ import Skills from "../Skills";
 import * as S from "./styles";
 
 export default () => {
-  const { state } = useContext(store);
+  const { state } = useScrollContext();
 
   const [embla, setEmbla] = useState(null);
 
