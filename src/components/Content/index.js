@@ -18,7 +18,7 @@ export default () => {
   useEffect(() => {
     if (embla && state.content.currentIndex !== embla.selectedScrollSnap())
       embla.scrollTo(state.content.currentIndex);
-  }, [state.content.currentIndex]);
+  }, [state.content.currentIndex, embla]);
 
   return (
     <S.ContentWrapper options={{ draggable: false }} emblaRef={setEmbla}>
