@@ -50,6 +50,7 @@ export default createGlobalStyle`
     opacity: 1;
     transform: translateX(0);
   }
+  
   *.hidden{
     visibility: hidden;
     opacity: 0;
