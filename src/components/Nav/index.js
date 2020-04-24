@@ -10,7 +10,6 @@ import * as S from "./styles";
 
 export default () => {
   const { state, dispatch } = useContext(store);
-  console.log(state);
   return (
     <S.NavWrapper>
       <S.NavContainer>
