@@ -1,7 +1,7 @@
 import React from "react";
 
-import { useScrollContext } from '../../context/scroll' 
-import actions from '../../context/scroll/enum/actions'
+import { useScrollContext } from "../../context/scroll";
+import actions from "../../context/scroll/enum/actions";
 
 import Logo from "../NavLogotipo";
 import Button from "../Button";
@@ -40,6 +40,14 @@ export default () => {
             }
           >
             skills
+          </Button>
+          <Button
+            as="a"
+            href="https://blog.brunormferreira.now.sh/"
+            target="_blank"
+            rel="noopener noreferrer external"
+          >
+            blog
           </Button>
         </S.ButtonsContainer>
       </S.NavContainer>
