@@ -1,12 +1,12 @@
 ---
 photo: "profile.jpg"
 name: "Bruno Ramires"
-bio: "I am currently studying and honing my knowledge of front end technologies. Specifically with HTML, CSS and JavaScript! And some frameworks like React, Vue and Angular."
+bio: "I am currently studying and honing my knowledge of UX / UI Designer and something like frontend developer."
 logotipo: "bruno.rm.ferreira"
 social:
   github:
     url: "https://github.com/brunormferreira"
-    stats: "+80 Followers"
+    stats: "+100 Followers"
     icon: "FiGithub"
     statsIcon: "FiUserCheck"
   linkedin:
