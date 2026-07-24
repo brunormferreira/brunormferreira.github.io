@@ -5,6 +5,7 @@ import {
   OnInit,
   OnDestroy,
   inject,
+  NgZone,
 } from '@angular/core';
 
 @Directive({
@@ -12,9 +13,10 @@ import {
   standalone: true,
 })
 export class TypingDirective implements OnInit, OnDestroy {
-  private el = inject(ElementRef);
+  private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly zone = inject(NgZone);
 
-  @Input('appTyping') texts: string[] = [];
+  @Input('appTyping') texts: readonly string[] = [];
   @Input() typingSpeed = 60;
   @Input() deletingSpeed = 30;
   @Input() pauseDuration = 2000;
@@ -28,7 +30,7 @@ export class TypingDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.texts.length > 0) {
-      this.type();
+      this.zone.runOutsideAngular(() => this.type());
     }
   }
 
@@ -39,12 +41,14 @@ export class TypingDirective implements OnInit, OnDestroy {
   }
 
   private type(): void {
-    const current = this.texts[this.currentIndex];
+    const current = this.texts[this.currentIndex] ?? '';
+    if (!current) return;
     const cursor = this.showCursor ? '█' : '';
 
     if (this.isDeleting) {
       this.currentChar--;
-      this.el.nativeElement.textContent = current.substring(0, this.currentChar) + cursor;
+      this.el.nativeElement.textContent =
+        current.substring(0, this.currentChar) + cursor;
 
       if (this.currentChar === 0) {
         this.isDeleting = false;
@@ -59,7 +63,8 @@ export class TypingDirective implements OnInit, OnDestroy {
       this.timeoutId = setTimeout(() => this.type(), this.deletingSpeed);
     } else {
       this.currentChar++;
-      this.el.nativeElement.textContent = current.substring(0, this.currentChar) + cursor;
+      this.el.nativeElement.textContent =
+        current.substring(0, this.currentChar) + cursor;
 
       if (this.currentChar === current.length) {
         if (!this.loop && this.currentIndex === this.texts.length - 1) return;
