@@ -27,9 +27,20 @@ export class TypingDirective implements OnInit, OnDestroy {
   private currentChar = 0;
   private isDeleting = false;
   private timeoutId: ReturnType<typeof setTimeout> | null = null;
+  private prefersReducedMotion = false;
 
   ngOnInit(): void {
+    // Respect user's motion preference
+    this.prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     if (this.texts.length > 0) {
+      if (this.prefersReducedMotion) {
+        // Show first text immediately without animation
+        this.el.nativeElement.textContent = this.texts[0];
+        return;
+      }
       this.zone.runOutsideAngular(() => this.type());
     }
   }
