@@ -5,14 +5,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prestart": "pnpm run posts:generate",
+    "prestart": "pnpm run posts:generate && pnpm run seo:generate",
     "build": "ng build",
-    "prebuild": "pnpm run posts:generate",
+    "prebuild": "pnpm run posts:generate && pnpm run seo:generate",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "posts:generate": "node scripts/generate-posts-index.mjs",
-    "post:new": "node scripts/new-post.mjs"
+    "post:new": "node scripts/new-post.mjs",
+    "seo:generate": "node scripts/generate-sitemap-rss.mjs"
   },
   "private": true,
   "dependencies": {
