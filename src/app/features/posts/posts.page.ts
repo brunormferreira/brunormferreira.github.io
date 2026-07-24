@@ -12,6 +12,7 @@ import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.dir
 import { POSTS } from '../../content/generated/posts.generated';
 import { Locale, Post } from '../../content/posts.models';
 import { LocaleService } from '../../shared/services/locale.service';
+import { MetaService } from '../../shared/services/meta.service';
 
 @Component({
   selector: 'app-posts-page',
@@ -21,28 +22,32 @@ import { LocaleService } from '../../shared/services/locale.service';
   template: `
     <section id="posts" class="posts">
       <div class="section-cmd">
-        <span class="prompt">bruno&#64;portfolio</span
+        <span class="prompt">bruno&#64;dev</span
         ><span class="colon">:</span><span class="path">~/posts</span
         ><span class="dollar">$</span>
         <span class="command"> cat index.md | grep --tag</span>
       </div>
 
-      <div class="filters" appScrollReveal>
-        <div class="locale-toggle">
+      <div class="filters" appScrollReveal role="group" aria-label="Posts filters">
+        <div class="locale-toggle" role="group" aria-label="Language selection">
           <button
             type="button"
             class="locale-btn"
             [class.active]="locale() === 'pt-br'"
             (click)="setLocale('pt-br')"
+            [attr.aria-pressed]="locale() === 'pt-br'"
+            aria-label="Switch to Portuguese"
           >
             PT
           </button>
-          <span class="locale-divider">|</span>
+          <span class="locale-divider" aria-hidden="true">|</span>
           <button
             type="button"
             class="locale-btn"
             [class.active]="locale() === 'en-us'"
             (click)="setLocale('en-us')"
+            [attr.aria-pressed]="locale() === 'en-us'"
+            aria-label="Switch to English"
           >
             EN
           </button>
@@ -53,6 +58,7 @@ import { LocaleService } from '../../shared/services/locale.service';
           class="filter-btn"
           [class.active]="activeFilter() === 'all'"
           (click)="setFilter('all')"
+          [attr.aria-pressed]="activeFilter() === 'all'"
         >
           all
         </button>
@@ -63,6 +69,7 @@ import { LocaleService } from '../../shared/services/locale.service';
             class="filter-btn"
             [class.active]="activeFilter() === option"
             (click)="setFilter(option)"
+            [attr.aria-pressed]="activeFilter() === option"
           >
             {{ option }}
           </button>
@@ -115,6 +122,7 @@ export class PostsPageComponent {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly localeService = inject(LocaleService);
+  private readonly metaService = inject(MetaService);
 
   readonly locale = this.localeService.locale;
 
@@ -139,6 +147,14 @@ export class PostsPageComponent {
   });
 
   constructor() {
+    // Set meta tags for posts list page
+    this.metaService.updateMeta({
+      title: 'Posts',
+      description:
+        'Technical articles on Angular, React, frontend architecture, and developer experience.',
+      url: '/posts',
+    });
+
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
