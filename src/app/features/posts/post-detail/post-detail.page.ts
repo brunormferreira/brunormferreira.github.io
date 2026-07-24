@@ -12,6 +12,7 @@ import { marked } from 'marked';
 import { POSTS } from '../../../content/generated/posts.generated';
 import { Post } from '../../../content/posts.models';
 import { LocaleService } from '../../../shared/services/locale.service';
+import { MetaService } from '../../../shared/services/meta.service';
 
 @Component({
   selector: 'app-post-detail-page',
@@ -22,9 +23,8 @@ import { LocaleService } from '../../../shared/services/locale.service';
   template: `
     <section class="post-detail">
       <div class="section-cmd">
-        <span class="prompt">bruno&#64;portfolio</span
-        ><span class="colon">:</span><span class="path">~/posts</span
-        ><span class="dollar">$</span>
+        <span class="prompt">bruno&#64;dev</span><span class="colon">:</span
+        ><span class="path">~/posts</span><span class="dollar">$</span>
         <span class="command"> cat {{ activeSlug || 'post.md' }}</span>
       </div>
 
@@ -62,6 +62,7 @@ export class PostDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly localeService = inject(LocaleService);
+  private readonly metaService = inject(MetaService);
 
   readonly posts = POSTS;
 
@@ -104,8 +105,17 @@ export class PostDetailPageComponent {
 
     if (!nextPost) {
       this.markdownHtml = '';
+      this.metaService.resetToDefaults();
       return;
     }
+
+    // Update meta tags for SEO
+    this.metaService.updateMeta({
+      title: nextPost.title,
+      description: nextPost.description,
+      url: `/posts/${nextPost.slug}`,
+      type: 'article',
+    });
 
     const rendered = marked.parse(nextPost.content, { async: false });
     this.markdownHtml = typeof rendered === 'string' ? rendered : '';
