@@ -81,76 +81,93 @@ function estimateReadTime(text) {
 
 // ── Core pipeline ───────────────────────────────────────────────────
 
-function readPosts() {
-  if (!fs.existsSync(postsDir)) {
-    return { posts: [], errors: [] };
+const SUPPORTED_LOCALES = ['pt-br', 'en-us'];
+
+function readPostsForLocale(locale, errors) {
+  const localeDir = path.join(postsDir, locale);
+
+  if (!fs.existsSync(localeDir)) {
+    return [];
   }
 
   const files = fs
-    .readdirSync(postsDir)
+    .readdirSync(localeDir)
     .filter((name) => name.toLowerCase().endsWith('.md'));
 
+  return files.map((fileName) => {
+    const fileLabel = `${locale}/${fileName}`;
+    const absolutePath = path.join(localeDir, fileName);
+    const raw = fs.readFileSync(absolutePath, 'utf8');
+    const { data, content } = matter(raw);
+
+    const title = assertString('title', data.title, fileLabel, errors);
+    const description = assertString(
+      'description',
+      data.description,
+      fileLabel,
+      errors,
+    );
+    const publishedAt = assertDate(data.date, fileLabel, errors);
+    const category = assertString('category', data.category, fileLabel, errors);
+    const tags = normalizeTags(data.tags, fileLabel, errors);
+    const draft = Boolean(data.draft);
+    const markdownContent = content.trim();
+
+    if (!markdownContent) {
+      collectError(errors, fileLabel, 'Markdown body is empty.');
+    }
+
+    return {
+      slug: toSlug(fileName),
+      locale,
+      title,
+      description,
+      publishedAt,
+      category,
+      tags,
+      content: markdownContent,
+      readTime: estimateReadTime(markdownContent),
+      draft,
+    };
+  });
+}
+
+function readPosts() {
+  if (!fs.existsSync(postsDir)) {
+    return { posts: [], errors: [], totalFiles: 0 };
+  }
+
   const errors = [];
+  let totalFiles = 0;
 
-  const posts = files
-    .map((fileName) => {
-      const absolutePath = path.join(postsDir, fileName);
-      const raw = fs.readFileSync(absolutePath, 'utf8');
-      const { data, content } = matter(raw);
+  const allPosts = SUPPORTED_LOCALES.flatMap((locale) => {
+    const localePosts = readPostsForLocale(locale, errors);
+    totalFiles += localePosts.length;
+    return localePosts;
+  });
 
-      const title = assertString('title', data.title, fileName, errors);
-      const description = assertString(
-        'description',
-        data.description,
-        fileName,
-        errors,
-      );
-      const publishedAt = assertDate(data.date, fileName, errors);
-      const category = assertString(
-        'category',
-        data.category,
-        fileName,
-        errors,
-      );
-      const tags = normalizeTags(data.tags, fileName, errors);
-      const draft = Boolean(data.draft);
-      const markdownContent = content.trim();
-
-      if (!markdownContent) {
-        collectError(errors, fileName, 'Markdown body is empty.');
-      }
-
-      return {
-        slug: toSlug(fileName),
-        title,
-        description,
-        publishedAt,
-        category,
-        tags,
-        content: markdownContent,
-        readTime: estimateReadTime(markdownContent),
-        draft,
-      };
-    })
+  const published = allPosts
     .filter((post) => !post.draft)
     .sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
 
-  // Detect duplicate slugs
-  const slugCount = new Map();
-  for (const post of posts) {
-    slugCount.set(post.slug, (slugCount.get(post.slug) ?? 0) + 1);
-  }
-  for (const [slug, count] of slugCount) {
-    if (count > 1) {
-      collectError(
-        errors,
-        slug,
-        `Duplicate slug detected (${count} posts resolve to "${slug}").`,
-      );
+  // Detect duplicate slugs per locale
+  for (const locale of SUPPORTED_LOCALES) {
+    const slugCount = new Map();
+    for (const post of published.filter((p) => p.locale === locale)) {
+      slugCount.set(post.slug, (slugCount.get(post.slug) ?? 0) + 1);
+    }
+    for (const [slug, count] of slugCount) {
+      if (count > 1) {
+        collectError(
+          errors,
+          `${locale}/${slug}`,
+          `Duplicate slug detected (${count} posts resolve to "${slug}").`,
+        );
+      }
     }
   }
 
-  return { posts, errors };
+  return { posts: published, errors, totalFiles };
 }
 
 function writeOutput(posts) {
@@ -174,7 +191,7 @@ function writeOutput(posts) {
 
 // ── Run ─────────────────────────────────────────────────────────────
 
-const { posts, errors } = readPosts();
+const { posts, errors, totalFiles } = readPosts();
 
 if (errors.length > 0) {
   console.error('\n⚠ Posts validation errors:\n');
@@ -187,9 +204,7 @@ if (errors.length > 0) {
 
 writeOutput(posts);
 
-const draftCount =
-  fs.readdirSync(postsDir).filter((n) => n.endsWith('.md')).length -
-  posts.length;
+const draftCount = totalFiles - posts.length;
 
 console.log(
   `✓ Generated ${posts.length} post(s)` +
