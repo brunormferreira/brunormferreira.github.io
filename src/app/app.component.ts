@@ -15,11 +15,11 @@ import { NAV_SECTIONS } from './content/portfolio-content';
   template: `
     <app-matrix-rain />
 
-    <header class="site-header">
-      <nav class="terminal-nav">
-        <a routerLink="/" class="nav-brand" (click)="closeMobileMenu()">
+    <header class="site-header" role="banner">
+      <nav class="terminal-nav" aria-label="Main navigation">
+        <a routerLink="/" class="nav-brand" (click)="closeMobileMenu()" aria-label="Home - Bruno Ramires Portfolio">
           <span class="user">bruno</span><span class="at">&#64;</span
-          ><span class="host">portfolio</span>
+          ><span class="host">dev</span>
         </a>
 
         <button
@@ -91,7 +91,7 @@ import { NAV_SECTIONS } from './content/portfolio-content';
       </button>
     }
 
-    <footer class="terminal-footer">
+    <footer class="terminal-footer" role="contentinfo">
       <p>
         <span class="text-muted">/* Built with Angular 19 & passion — </span>
         <span class="text-green">{{ currentYear }}</span>
