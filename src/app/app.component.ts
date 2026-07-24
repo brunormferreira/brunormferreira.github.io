@@ -2,8 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  inject,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatrixRainComponent } from './layout/matrix-rain/matrix-rain.component';
 import { NAV_SECTIONS } from './content/portfolio-content';
 
@@ -17,7 +18,7 @@ import { NAV_SECTIONS } from './content/portfolio-content';
 
     <header class="site-header" role="banner">
       <nav class="terminal-nav" aria-label="Main navigation">
-        <a routerLink="/" class="nav-brand" (click)="closeMobileMenu()" aria-label="Home - Bruno Ramires Portfolio">
+        <a href="/" class="nav-brand" (click)="onBrandClick($event)" aria-label="Home - Bruno Ramires Portfolio">
           <span class="user">bruno</span><span class="at">&#64;</span
           ><span class="host">dev</span>
         </a>
@@ -102,6 +103,7 @@ import { NAV_SECTIONS } from './content/portfolio-content';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  private readonly router = inject(Router);
   private readonly bottomThresholdPx = 220;
 
   readonly currentYear = new Date().getFullYear();
@@ -138,5 +140,13 @@ export class AppComponent {
 
   closeMobileMenu(): void {
     this.mobileMenuOpen = false;
+  }
+
+  onBrandClick(event: Event): void {
+    event.preventDefault();
+    this.closeMobileMenu();
+    this.router.navigateByUrl('/').then(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 }
