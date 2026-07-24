@@ -11,8 +11,8 @@
   left: 0;
   right: 0;
   z-index: $z-nav;
-  background: rgba($bg-primary, 0.92);
-  backdrop-filter: blur(8px);
+  background: rgba($bg-secondary, 0.82);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid $border-color;
   padding: $spacing-sm $spacing-xl;
   display: flex;
