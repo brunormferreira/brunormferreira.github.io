@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 60px;
+  padding-top: var(--nav-height, 56px);
 }
 
 .hero-content {

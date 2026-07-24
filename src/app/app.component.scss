@@ -1,35 +1,54 @@
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
+// ─────────────────────────────────────────────────────────────
+// CSS Variables for nav height (used by hero offset)
+// ─────────────────────────────────────────────────────────────
 :host {
   display: block;
+  --nav-height: 56px;
 }
 
-.terminal-nav {
+// ─────────────────────────────────────────────────────────────
+// Site Header
+// ─────────────────────────────────────────────────────────────
+.site-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: $z-nav;
-  background: rgba($bg-secondary, 0.82);
-  backdrop-filter: blur(10px);
+  height: var(--nav-height);
+  background: rgba($bg-secondary, 0.92);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid $border-color;
-  padding: $spacing-sm $spacing-xl;
+}
+
+.terminal-nav {
   display: flex;
   align-items: center;
-  gap: $spacing-lg;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
 
   @include mobile {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $spacing-sm;
-    padding: $spacing-sm $spacing-md;
+    padding: 0 $spacing-md;
   }
 }
 
-.nav-prompt {
+// ─────────────────────────────────────────────────────────────
+// Brand / Logo
+// ─────────────────────────────────────────────────────────────
+.nav-brand {
   font-size: $font-size-sm;
   white-space: nowrap;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   .user {
     color: $text-primary;
@@ -40,25 +59,48 @@
   .host {
     color: $text-secondary;
   }
-  .colon {
-    color: $text-muted;
-  }
-  .path {
-    color: $text-accent;
-  }
-  .dollar {
-    color: $text-muted;
-    margin-left: 2px;
-  }
 }
 
-.nav-links {
+// ─────────────────────────────────────────────────────────────
+// Navigation Menu
+// ─────────────────────────────────────────────────────────────
+.nav-menu {
   display: flex;
-  gap: $spacing-md;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-sm;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include mobile {
+    position: fixed;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: rgba($bg-secondary, 0.98);
+    border-bottom: 1px solid $border-color;
+    padding: $spacing-sm 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease,
+      visibility 0.25s;
+
+    &.is-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
 
-.nav-cmd {
+.nav-link {
+  display: block;
   font-size: $font-size-xs;
   color: $text-muted;
   padding: $spacing-xs $spacing-sm;
@@ -70,14 +112,142 @@
     color: $text-primary;
     border-color: $text-primary;
     background: rgba(0, 255, 65, 0.05);
-    text-shadow: none;
   }
 
   &.is-active {
     color: $text-secondary;
     border-color: rgba(0, 212, 255, 0.35);
     background: rgba(0, 212, 255, 0.08);
-    text-shadow: none;
+  }
+
+  &--highlight {
+    color: $text-primary;
+    text-decoration: underline;
+    text-decoration-color: $text-primary;
+    text-underline-offset: 3px;
+
+    &:hover {
+      background: rgba(0, 255, 65, 0.1);
+      box-shadow: $glow-green;
+    }
+
+    &.is-active {
+      text-decoration-color: $text-secondary;
+    }
+  }
+
+  @include mobile {
+    padding: $spacing-sm $spacing-lg;
+    border: none;
+    border-radius: 0;
+
+    &:hover {
+      border-color: transparent;
+      background: rgba(0, 255, 65, 0.08);
+    }
+
+    &.is-active {
+      border-color: transparent;
+      background: rgba(0, 212, 255, 0.12);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Hamburger Button (mobile only)
+// ─────────────────────────────────────────────────────────────
+.hamburger {
+  display: none;
+
+  @include mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid $border-color;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color $transition-fast;
+
+    &:hover,
+    &.is-active {
+      border-color: $text-primary;
+    }
+  }
+}
+
+.hamburger-box {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 14px;
+}
+
+.hamburger-inner {
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin-top: -1px;
+  background: $text-primary;
+  transition:
+    transform 0.2s ease,
+    background 0.1s ease;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: $text-primary;
+    transition:
+      transform 0.2s ease,
+      top 0.2s ease;
+  }
+
+  &::before {
+    top: -6px;
+  }
+
+  &::after {
+    top: 6px;
+  }
+
+  .hamburger.is-active & {
+    background: transparent;
+
+    &::before {
+      top: 0;
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      top: 0;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Backdrop (click outside to close)
+// ─────────────────────────────────────────────────────────────
+.nav-backdrop {
+  display: none;
+
+  @include mobile {
+    display: block;
+    position: fixed;
+    inset: 0;
+    top: var(--nav-height);
+    z-index: calc($z-nav - 1);
+    background: rgba(0, 0, 0, 0.4);
   }
 }
 

@@ -15,33 +15,68 @@ import { NAV_SECTIONS } from './content/portfolio-content';
   template: `
     <app-matrix-rain />
 
-    <nav class="terminal-nav">
-      <div class="nav-prompt">
-        <span class="user">bruno</span><span class="at">&#64;</span
-        ><span class="host">portfolio</span><span class="colon">:</span
-        ><span class="path">~</span><span class="dollar">$</span>
-      </div>
-      <div class="nav-links">
-        <a
-          routerLink="/"
-          routerLinkActive="is-active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-cmd"
+    <header class="site-header">
+      <nav class="terminal-nav">
+        <a routerLink="/" class="nav-brand" (click)="closeMobileMenu()">
+          <span class="user">bruno</span><span class="at">&#64;</span
+          ><span class="host">portfolio</span>
+        </a>
+
+        <button
+          type="button"
+          class="hamburger"
+          [class.is-active]="mobileMenuOpen"
+          (click)="toggleMobileMenu()"
+          [attr.aria-expanded]="mobileMenuOpen"
+          aria-controls="nav-menu"
+          aria-label="Toggle menu"
         >
-          cd ~
-        </a>
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
 
-        @for (section of sections; track section.id) {
-          <a routerLink="/" [fragment]="section.id" class="nav-cmd">
-            {{ section.cmd }}
-          </a>
-        }
+        <ul id="nav-menu" class="nav-menu" [class.is-open]="mobileMenuOpen">
+          <li>
+            <a
+              routerLink="/"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="nav-link"
+              (click)="closeMobileMenu()"
+            >
+              cd ~
+            </a>
+          </li>
+          @for (section of sections; track section.id) {
+            <li>
+              <a
+                routerLink="/"
+                [fragment]="section.id"
+                class="nav-link"
+                (click)="closeMobileMenu()"
+              >
+                {{ section.cmd }}
+              </a>
+            </li>
+          }
+          <li>
+            <a
+              routerLink="/posts"
+              routerLinkActive="is-active"
+              class="nav-link nav-link--highlight"
+              (click)="closeMobileMenu()"
+            >
+              ls posts/
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-        <a routerLink="/posts" routerLinkActive="is-active" class="nav-cmd">
-          ls posts/
-        </a>
-      </div>
-    </nav>
+    @if (mobileMenuOpen) {
+      <div class="nav-backdrop" (click)="closeMobileMenu()"></div>
+    }
 
     <router-outlet />
 
@@ -73,6 +108,7 @@ export class AppComponent {
   readonly sections = NAV_SECTIONS;
 
   showGoToTop = false;
+  mobileMenuOpen = false;
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
@@ -94,5 +130,13 @@ export class AppComponent {
         window.location.pathname + window.location.search,
       );
     }
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenuOpen = false;
   }
 }
