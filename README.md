@@ -22,7 +22,9 @@ src/app/
 ├─ layout/                     # Global visual shell pieces
 │  └─ matrix-rain/
 ├─ shared/                     # Reusable cross-feature building blocks
-│  └─ directives/
+│  ├─ directives/
+│  └─ services/
+│     └─ locale.service.ts     # Reactive locale signal + localStorage persistence
 ├─ features/                   # Route/domain-oriented modules
 │  ├─ home/
 │  │  ├─ home.page.ts          # Route container for '/'
@@ -32,6 +34,7 @@ src/app/
 │     └─ post-detail/
 │        └─ post-detail.page.ts # Route container for '/posts/:slug'
 └─ content/                    # Typed static content + generated data
+  ├─ posts.models.ts           # Post interface + Locale type
   └─ generated/
     └─ posts.generated.ts
 ```
@@ -53,15 +56,32 @@ pnpm build:prod   # production build
 
 ## Posts (DX Workflow)
 
-Posts are Markdown files in `public/posts/`. A build-time script parses frontmatter, validates metadata, and generates a typed TypeScript index consumed by the Angular app.
+Posts are Markdown files organized by locale under `public/posts/`. A build-time script parses frontmatter, validates metadata, and generates a typed TypeScript index consumed by the Angular app.
+
+```text
+public/posts/
+├─ pt-br/   ← Portuguese posts
+└─ en-us/   ← English posts
+```
+
+### Multilingual support
+
+The app supports **pt-BR** and **en-US** content. Each locale has its own subfolder. The `LocaleService` persists the user's choice in `localStorage` and defaults to the browser language. A **PT | EN** toggle in the posts page switches the active locale in real time.
+
+Posts with the same slug in different locales are treated as translations of each other. If a translation doesn't exist yet for the active locale, the post detail falls back to any available locale.
 
 ### Creating a new post
 
 ```bash
-pnpm run post:new -- "My Post Title"
+# Default locale (pt-br)
+pnpm run post:new -- "Meu Post"
+
+# Explicit locale
+pnpm run post:new -- "My Post" --locale en-us
+pnpm run post:new -- "Meu Post" --locale pt-br
 ```
 
-This creates `public/posts/YYYY-MM-DD-my-post-title.md` with a frontmatter template.
+This creates `public/posts/<locale>/YYYY-MM-DD-my-post-title.md` with a frontmatter template.
 
 ### Writing and publishing
 
@@ -91,11 +111,11 @@ pnpm start
 
 ### What happens under the hood
 
-| Step                        | What runs                                                                                              | Output                                         |
-| --------------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
-| `pnpm start` / `pnpm build` | `prebuild` hook runs `posts:generate`                                                                  | `src/app/content/generated/posts.generated.ts` |
-| Generation                  | Reads all `.md` files, validates frontmatter, filters drafts, sorts newest-first, calculates read time | Typed `POSTS` array                            |
-| Validation                  | Checks: title, description, date (YYYY-MM-DD), category, tags (array), non-empty body, unique slugs    | Fails with all errors listed if invalid        |
+| Step                        | What runs                                                                                                              | Output                                         |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `pnpm start` / `pnpm build` | `prebuild` hook runs `posts:generate`                                                                                  | `src/app/content/generated/posts.generated.ts` |
+| Generation                  | Reads `pt-br/` and `en-us/` subfolders, validates frontmatter, filters drafts, sorts newest-first, sets `locale` field | Typed `POSTS` array with `locale` per entry    |
+| Validation                  | Checks: title, description, date (YYYY-MM-DD), category, tags (array), non-empty body, unique slugs per locale         | Fails with all errors listed if invalid        |
 
 ### Manual generation (optional)
 
@@ -113,6 +133,8 @@ pnpm run posts:generate
 | `category`    | Yes      | Non-empty string                       |
 | `tags`        | No       | Array of strings (empty `[]` is valid) |
 | `draft`       | No       | `true` / `false` (defaults to `false`) |
+
+> `locale` is derived automatically from the subfolder name (`pt-br` or `en-us`) — do not add it to frontmatter.
 
 ## Deploy
 
