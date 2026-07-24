@@ -1,0 +1,91 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+@use 'sass:color';
+
+// === Reset & Global ===
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-mono;
+  background-color: $bg-primary;
+  color: $text-white;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @include scanlines();
+}
+
+// === Scrollbar ===
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-primary;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $text-primary;
+  border-radius: 3px;
+
+  &:hover {
+    background: color.adjust($text-primary, $lightness: 10%);
+  }
+}
+
+// === Selection ===
+::selection {
+  background: rgba(0, 255, 65, 0.2);
+  color: $text-primary;
+}
+
+// === Links ===
+a {
+  color: $text-secondary;
+  text-decoration: none;
+  transition: color $transition-fast, text-shadow $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    @include glow($text-primary, 0.3);
+  }
+}
+
+// === Section base ===
+section {
+  padding: $spacing-4xl $spacing-xl;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @include mobile {
+    padding: $spacing-2xl $spacing-md;
+    min-height: auto;
+  }
+}
+
+// === Utility classes ===
+.text-green { color: $text-primary; }
+.text-cyan { color: $text-secondary; }
+.text-orange { color: $text-accent; }
+.text-muted { color: $text-muted; }
+.text-white { color: $text-white; }
+
+.glow-green { @include glow($text-primary); }
+.glow-cyan { @include glow($text-secondary); }

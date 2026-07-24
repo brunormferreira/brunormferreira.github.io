@@ -1,0 +1,60 @@
+// === Terminal/Hacker Theme Design Tokens ===
+
+// Colors
+$bg-primary: #0a0a0a;
+$bg-secondary: #111111;
+$bg-tertiary: #1a1a1a;
+$bg-card: #0d0d0d;
+
+$text-primary: #00ff41; // Matrix green
+$text-secondary: #00d4ff; // Cyan
+$text-accent: #ff6600; // Orange highlights
+$text-muted: #555555;
+$text-white: #e0e0e0;
+$text-dim: #333333;
+
+$border-color: #1e1e1e;
+$border-active: #00ff41;
+
+$glow-green: 0 0 10px rgba(0, 255, 65, 0.3);
+$glow-cyan: 0 0 10px rgba(0, 212, 255, 0.3);
+$glow-orange: 0 0 10px rgba(255, 102, 0, 0.3);
+
+// Typography
+$font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+$font-size-xs: 0.7rem;
+$font-size-sm: 0.8rem;
+$font-size-base: 0.95rem;
+$font-size-md: 1.1rem;
+$font-size-lg: 1.4rem;
+$font-size-xl: 2rem;
+$font-size-2xl: 3rem;
+$font-size-3xl: 4rem;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+$spacing-4xl: 6rem;
+
+// Breakpoints
+$bp-mobile: 480px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-wide: 1440px;
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-base: 300ms ease;
+$transition-slow: 600ms ease;
+
+// Z-index layers
+$z-background: -1;
+$z-base: 1;
+$z-overlay: 10;
+$z-nav: 100;
+$z-modal: 1000;
