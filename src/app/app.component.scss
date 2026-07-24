@@ -72,6 +72,13 @@
     background: rgba(0, 255, 65, 0.05);
     text-shadow: none;
   }
+
+  &.is-active {
+    color: $text-secondary;
+    border-color: rgba(0, 212, 255, 0.35);
+    background: rgba(0, 212, 255, 0.08);
+    text-shadow: none;
+  }
 }
 
 .terminal-footer {

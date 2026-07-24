@@ -1,0 +1,130 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.posts {
+  @include section-shell();
+}
+
+.section-cmd {
+  @include terminal-section-command();
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xl;
+  @include fade-in-up();
+}
+
+.filter-btn {
+  border: 1px solid $border-color;
+  background: transparent;
+  color: $text-muted;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  text-transform: lowercase;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $text-primary;
+    color: $text-primary;
+  }
+
+  &.active {
+    border-color: $text-secondary;
+    color: $text-secondary;
+    background: rgba(0, 212, 255, 0.08);
+  }
+}
+
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $spacing-lg;
+}
+
+.post-card {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: $spacing-md;
+  transition: all $transition-base;
+  @include fade-in-up();
+
+  &:hover {
+    border-color: $text-primary;
+    transform: translateY(-2px);
+    background: rgba(0, 255, 65, 0.03);
+  }
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+}
+
+.post-date {
+  color: $text-accent;
+  font-size: $font-size-xs;
+}
+
+.post-category {
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+
+.post-title {
+  color: $text-white;
+  font-size: $font-size-base;
+  margin-bottom: $spacing-sm;
+}
+
+.post-desc {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  line-height: 1.6;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin-top: $spacing-md;
+}
+
+.tag {
+  color: $text-primary;
+  font-size: 0.65rem;
+}
+
+.post-link {
+  display: inline-flex;
+  margin-top: $spacing-md;
+  font-size: $font-size-xs;
+  color: $text-secondary;
+  border-bottom: 1px solid transparent;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    border-bottom-color: rgba(0, 255, 65, 0.5);
+    text-shadow: none;
+  }
+}
+
+.empty-state {
+  border: 1px dashed $border-color;
+  padding: $spacing-lg;
+  color: $text-muted;
+  font-size: $font-size-sm;
+  text-align: center;
+  @include fade-in-up();
+}

@@ -1,0 +1,119 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.post-detail {
+  @include section-shell();
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: $spacing-4xl;
+}
+
+.post-detail .section-cmd {
+  @include terminal-section-command($spacing-lg);
+}
+
+.post-detail .back-link {
+  display: inline-flex;
+  margin-bottom: $spacing-lg;
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    text-shadow: none;
+  }
+}
+
+.post-detail .post-shell {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: $spacing-xl;
+  background: rgba($bg-card, 0.7);
+}
+
+.post-detail .post-title {
+  color: $text-white;
+  font-size: $font-size-xl;
+  margin-bottom: $spacing-sm;
+}
+
+.post-detail .post-description {
+  color: $text-muted;
+  font-size: $font-size-base;
+  margin-bottom: $spacing-md;
+}
+
+.post-detail .post-meta-line {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $text-accent;
+  font-size: $font-size-xs;
+  margin-bottom: $spacing-xl;
+}
+
+.post-detail .meta-divider {
+  color: $text-muted;
+}
+
+.post-detail .post-content {
+  color: $text-white;
+  line-height: 1.8;
+  font-size: $font-size-base;
+}
+
+.post-detail .post-content h1,
+.post-detail .post-content h2,
+.post-detail .post-content h3 {
+  color: $text-primary;
+  margin: $spacing-xl 0 $spacing-sm;
+}
+
+.post-detail .post-content p {
+  margin-bottom: $spacing-md;
+}
+
+.post-detail .post-content code {
+  color: $text-secondary;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 2px;
+  padding: 0 4px;
+}
+
+.post-detail .post-content pre {
+  overflow-x: auto;
+  padding: $spacing-md;
+  border: 1px solid $border-color;
+  background: $bg-secondary;
+  border-radius: 4px;
+  margin-bottom: $spacing-lg;
+}
+
+.post-detail .post-content pre code {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.post-detail .post-content ul,
+.post-detail .post-content ol {
+  padding-left: $spacing-xl;
+  margin-bottom: $spacing-md;
+}
+
+.post-detail .post-content a {
+  color: $text-secondary;
+
+  &:hover {
+    color: $text-primary;
+    text-shadow: none;
+  }
+}
+
+.post-detail .not-found {
+  border: 1px dashed $border-color;
+  padding: $spacing-lg;
+  color: $text-muted;
+}

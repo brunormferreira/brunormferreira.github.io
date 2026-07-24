@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
-import { PROJECTS } from '../../content/portfolio-content';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
+import { PROJECTS } from '../../../../content/portfolio-content';
 
 @Component({
   selector: 'app-projects',

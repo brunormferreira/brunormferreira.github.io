@@ -3,28 +3,15 @@ import {
   Component,
   HostListener,
 } from '@angular/core';
-import { HeroComponent } from './components/hero/hero.component';
-import { AboutComponent } from './components/about/about.component';
-import { ExperienceComponent } from './components/experience/experience.component';
-import { SkillsComponent } from './components/skills/skills.component';
-import { ProjectsComponent } from './components/projects/projects.component';
-import { ContactComponent } from './components/contact/contact.component';
-import { MatrixRainComponent } from './components/matrix-rain/matrix-rain.component';
+import { RouterModule } from '@angular/router';
+import { MatrixRainComponent } from './layout/matrix-rain/matrix-rain.component';
 import { NAV_SECTIONS } from './content/portfolio-content';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    HeroComponent,
-    AboutComponent,
-    ExperienceComponent,
-    SkillsComponent,
-    ProjectsComponent,
-    ContactComponent,
-    MatrixRainComponent,
-  ],
+  imports: [RouterModule, MatrixRainComponent],
   template: `
     <app-matrix-rain />
 
@@ -35,20 +22,28 @@ import { NAV_SECTIONS } from './content/portfolio-content';
         ><span class="path">~</span><span class="dollar">$</span>
       </div>
       <div class="nav-links">
+        <a
+          routerLink="/"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-cmd"
+        >
+          cd ~
+        </a>
+
         @for (section of sections; track section.id) {
-          <a [href]="'#' + section.id" class="nav-cmd">{{ section.cmd }}</a>
+          <a routerLink="/" [fragment]="section.id" class="nav-cmd">
+            {{ section.cmd }}
+          </a>
         }
+
+        <a routerLink="/posts" routerLinkActive="is-active" class="nav-cmd">
+          ls posts/
+        </a>
       </div>
     </nav>
 
-    <main>
-      <app-hero />
-      <app-about />
-      <app-experience />
-      <app-skills />
-      <app-projects />
-      <app-contact />
-    </main>
+    <router-outlet />
 
     @if (showGoToTop) {
       <button
@@ -75,7 +70,6 @@ export class AppComponent {
   private readonly bottomThresholdPx = 220;
 
   readonly currentYear = new Date().getFullYear();
-
   readonly sections = NAV_SECTIONS;
 
   showGoToTop = false;
@@ -93,7 +87,6 @@ export class AppComponent {
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Keep current path/query but remove the section hash from the URL.
     if (window.location.hash) {
       window.history.replaceState(
         window.history.state,

@@ -5,10 +5,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prestart": "pnpm run posts:generate",
     "build": "ng build",
+    "prebuild": "pnpm run posts:generate",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "posts:generate": "node scripts/generate-posts-index.mjs",
+    "post:new": "node scripts/new-post.mjs"
   },
   "private": true,
   "dependencies": {
@@ -18,6 +22,8 @@
     "@angular/core": "^19.2.0",
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
+    "@angular/router": "^19.2.22",
+    "marked": "^13.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.0",
     "zone.js": "~0.15.0"
@@ -26,6 +32,8 @@
     "@angular-devkit/build-angular": "^19.2.0",
     "@angular/cli": "^19.2.0",
     "@angular/compiler-cli": "^19.2.0",
+    "@angular/language-service": "^19.2.25",
+    "gray-matter": "^4.0.3",
     "typescript": "~5.7.0"
   }
 }

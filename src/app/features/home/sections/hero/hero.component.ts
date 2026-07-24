@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TypingDirective } from '../../directives/typing.directive';
+import { TypingDirective } from '../../../../shared/directives/typing.directive';
 import {
   CV_DOWNLOAD_URL,
   HERO_ASCII_NAME,
   HERO_ROLES,
-} from '../../content/portfolio-content';
+} from '../../../../content/portfolio-content';
 
 @Component({
   selector: 'app-hero',

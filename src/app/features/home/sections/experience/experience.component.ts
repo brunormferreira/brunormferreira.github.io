@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { ScrollRevealDirective } from '../../../../shared/directives/scroll-reveal.directive';
 import {
   EXPERIENCES,
   SELECTED_CONTRIBUTIONS,
-} from '../../content/portfolio-content';
+} from '../../../../content/portfolio-content';
 
 @Component({
   selector: 'app-experience',
