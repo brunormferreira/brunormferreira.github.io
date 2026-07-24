@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HeroComponent } from './sections/hero/hero.component';
 import { AboutComponent } from './sections/about/about.component';
 import { ExperienceComponent } from './sections/experience/experience.component';
 import { SkillsComponent } from './sections/skills/skills.component';
 import { ProjectsComponent } from './sections/projects/projects.component';
 import { ContactComponent } from './sections/contact/contact.component';
+import { MetaService } from '../../shared/services/meta.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,7 +20,7 @@ import { ContactComponent } from './sections/contact/contact.component';
     ContactComponent,
   ],
   template: `
-    <main>
+    <main role="main">
       <app-hero />
       <app-about />
       <app-experience />
@@ -29,4 +30,10 @@ import { ContactComponent } from './sections/contact/contact.component';
     </main>
   `,
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  private readonly metaService = inject(MetaService);
+
+  constructor() {
+    this.metaService.resetToDefaults();
+  }
+}
