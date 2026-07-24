@@ -56,7 +56,9 @@ body {
 a {
   color: $text-secondary;
   text-decoration: none;
-  transition: color $transition-fast, text-shadow $transition-fast;
+  transition:
+    color $transition-fast,
+    text-shadow $transition-fast;
 
   &:hover {
     color: $text-primary;
@@ -73,6 +75,9 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  content-visibility: auto;
+  contain: layout style paint;
+  contain-intrinsic-size: 1px 1000px;
 
   @include mobile {
     padding: $spacing-2xl $spacing-md;
@@ -81,11 +86,25 @@ section {
 }
 
 // === Utility classes ===
-.text-green { color: $text-primary; }
-.text-cyan { color: $text-secondary; }
-.text-orange { color: $text-accent; }
-.text-muted { color: $text-muted; }
-.text-white { color: $text-white; }
+.text-green {
+  color: $text-primary;
+}
+.text-cyan {
+  color: $text-secondary;
+}
+.text-orange {
+  color: $text-accent;
+}
+.text-muted {
+  color: $text-muted;
+}
+.text-white {
+  color: $text-white;
+}
 
-.glow-green { @include glow($text-primary); }
-.glow-cyan { @include glow($text-secondary); }
+.glow-green {
+  @include glow($text-primary);
+}
+.glow-cyan {
+  @include glow($text-secondary);
+}

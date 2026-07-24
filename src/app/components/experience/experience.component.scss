@@ -1,0 +1,201 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.experience {
+  @include section-shell();
+}
+
+.section-cmd {
+  @include terminal-section-command();
+}
+
+.timeline {
+  position: relative;
+}
+
+.timeline-item {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+  @include fade-in-up();
+
+  @include mobile {
+    gap: $spacing-md;
+  }
+}
+
+.timeline-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+
+  .marker-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid $text-muted;
+    background: $bg-primary;
+    transition: all $transition-base;
+
+    &.active {
+      border-color: $text-primary;
+      background: $text-primary;
+      box-shadow: $glow-green;
+    }
+  }
+
+  .marker-line {
+    flex: 1;
+    width: 1px;
+    background: $border-color;
+    margin-top: $spacing-sm;
+  }
+}
+
+.timeline-content {
+  flex: 1;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color $transition-base;
+
+  &:hover {
+    border-color: $text-primary;
+  }
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  background: $bg-tertiary;
+  border-bottom: 1px solid $border-color;
+
+  .period {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  .badge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border: 1px solid $text-muted;
+    border-radius: 2px;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.current {
+      border-color: $text-primary;
+      color: $text-primary;
+      background: rgba(0, 255, 65, 0.1);
+    }
+  }
+}
+
+.timeline-body {
+  padding: $spacing-md;
+}
+
+.role-line {
+  margin-bottom: $spacing-xs;
+
+  .prompt-sm {
+    color: $text-primary;
+    margin-right: $spacing-sm;
+  }
+
+  .role {
+    color: $text-white;
+    font-weight: 600;
+  }
+
+  .at-company {
+    color: $text-secondary;
+  }
+}
+
+.project-line {
+  margin-bottom: $spacing-md;
+
+  .comment {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    font-style: italic;
+  }
+}
+
+.highlight-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    display: flex;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+    color: $text-white;
+    line-height: 1.8;
+    padding-left: $spacing-sm;
+
+    .bullet {
+      color: $text-primary;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.contrib-block {
+  margin-top: $spacing-xl;
+  @include fade-in-up();
+}
+
+.sub-cmd {
+  margin-bottom: $spacing-md;
+
+  .command {
+    color: $text-muted;
+    font-size: $font-size-sm;
+    font-style: italic;
+  }
+}
+
+.contrib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: $spacing-md;
+}
+
+.contrib-card {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: $spacing-md;
+  background: rgba($bg-tertiary, 0.35);
+
+  .contrib-context {
+    color: $text-secondary;
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-xs;
+  }
+
+  .contrib-text,
+  .contrib-impact {
+    color: $text-white;
+    font-size: $font-size-sm;
+    line-height: 1.6;
+  }
+
+  .contrib-text {
+    margin-bottom: $spacing-sm;
+  }
+
+  .contrib-impact {
+    .label {
+      color: $text-primary;
+      text-transform: lowercase;
+    }
+  }
+}

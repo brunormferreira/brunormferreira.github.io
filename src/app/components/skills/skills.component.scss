@@ -1,0 +1,92 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.skills {
+  @include section-shell();
+}
+
+.section-cmd {
+  @include terminal-section-command();
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: $spacing-lg;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skill-category {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  overflow: hidden;
+  @include fade-in-up();
+  transition: border-color $transition-base;
+
+  &:hover {
+    border-color: $text-primary;
+  }
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background: $bg-tertiary;
+  border-bottom: 1px solid $border-color;
+  font-size: $font-size-sm;
+
+  .dir-icon {
+    font-size: $font-size-base;
+  }
+  .dir-name {
+    color: $text-secondary;
+    font-weight: 600;
+  }
+  .dir-cmd {
+    font-size: $font-size-xs;
+    margin-left: auto;
+  }
+}
+
+.skill-list {
+  padding: $spacing-md;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-xs 0;
+  font-size: $font-size-sm;
+  gap: $spacing-sm;
+
+  .skill-name {
+    color: $text-white;
+    white-space: nowrap;
+  }
+
+  .skill-bar {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+
+    .bar-fill {
+      color: $text-primary;
+      font-size: $font-size-xs;
+      letter-spacing: -1px;
+    }
+
+    .bar-percent {
+      color: $text-muted;
+      font-size: $font-size-xs;
+      min-width: 30px;
+      text-align: right;
+    }
+  }
+}

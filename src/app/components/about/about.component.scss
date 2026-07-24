@@ -1,0 +1,131 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.about {
+  @include section-shell();
+}
+
+.section-cmd {
+  @include terminal-section-command();
+}
+
+.about-content {
+  @include fade-in-up();
+}
+
+.terminal-window {
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: $spacing-2xl;
+}
+
+.terminal-header {
+  background: $bg-tertiary;
+  padding: $spacing-sm $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  border-bottom: 1px solid $border-color;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+
+  &.red {
+    background: #ff5f56;
+  }
+  &.yellow {
+    background: #ffbd2e;
+  }
+  &.green {
+    background: #27c93f;
+  }
+}
+
+.terminal-title {
+  color: $text-muted;
+  font-size: $font-size-xs;
+  margin-left: $spacing-sm;
+}
+
+.terminal-body {
+  padding: $spacing-lg;
+  background: $bg-card;
+}
+
+.about-text {
+  font-size: $font-size-sm;
+  line-height: 2;
+  color: $text-white;
+  display: flex;
+  gap: $spacing-md;
+
+  .line-num {
+    color: $text-dim;
+    min-width: 20px;
+    text-align: right;
+    user-select: none;
+  }
+
+  .highlight {
+    color: $text-primary;
+    font-weight: 600;
+  }
+
+  .highlight-angular {
+    color: #dd0031;
+    font-weight: 600;
+  }
+
+  .highlight-react {
+    color: #61dafb;
+    font-weight: 600;
+  }
+
+  .highlight-ai {
+    color: $text-accent;
+    font-weight: 600;
+  }
+}
+
+.about-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: $spacing-md;
+}
+
+.highlight-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-lg $spacing-md;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: $text-primary;
+    background: rgba(0, 255, 65, 0.02);
+  }
+
+  .highlight-icon {
+    font-size: $font-size-lg;
+  }
+
+  .highlight-value {
+    font-size: $font-size-md;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  .highlight-label {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}

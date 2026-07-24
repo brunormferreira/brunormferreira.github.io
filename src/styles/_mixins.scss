@@ -29,8 +29,13 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 // === Glitch Text ===
@@ -62,21 +67,45 @@
 }
 
 @keyframes glitch-1 {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 @keyframes glitch-2 {
-  0% { transform: translate(0); }
-  20% { transform: translate(2px, -2px); }
-  40% { transform: translate(2px, 2px); }
-  60% { transform: translate(-2px, -2px); }
-  80% { transform: translate(-2px, 2px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(2px, -2px);
+  }
+  40% {
+    transform: translate(2px, 2px);
+  }
+  60% {
+    transform: translate(-2px, -2px);
+  }
+  80% {
+    transform: translate(-2px, 2px);
+  }
+  100% {
+    transform: translate(0);
+  }
 }
 
 // === Scanline Overlay ===
@@ -102,8 +131,9 @@
 
 // === Glow Effect ===
 @mixin glow($color: $text-primary, $intensity: 0.4) {
-  text-shadow: 0 0 5px rgba($color, $intensity),
-               0 0 10px rgba($color, $intensity * 0.5);
+  text-shadow:
+    0 0 5px rgba($color, $intensity),
+    0 0 10px rgba($color, $intensity * 0.5);
 }
 
 // === Section Header (command prompt style) ===
@@ -112,13 +142,38 @@
   font-size: $font-size-sm;
   color: $text-muted;
   margin-bottom: $spacing-lg;
-  
+
   .prompt {
     color: $text-secondary;
   }
-  
+
   .command {
     color: $text-primary;
+  }
+}
+
+@mixin section-shell($top-padding: 80px) {
+  padding-top: $top-padding;
+}
+
+@mixin terminal-section-command($margin: $spacing-xl) {
+  @include section-header();
+  margin-bottom: $margin;
+
+  .prompt {
+    color: $text-primary;
+  }
+  .colon {
+    color: $text-muted;
+  }
+  .path {
+    color: $text-accent;
+  }
+  .dollar {
+    color: $text-muted;
+  }
+  .command {
+    color: $text-white;
   }
 }
 
@@ -145,7 +200,9 @@
 @mixin fade-in-up($delay: 0ms) {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 600ms ease $delay, transform 600ms ease $delay;
+  transition:
+    opacity 600ms ease $delay,
+    transform 600ms ease $delay;
 
   &.visible {
     opacity: 1;
@@ -158,7 +215,7 @@
   font-family: $font-mono;
   font-size: $font-size-sm;
   color: $color;
-  
+
   .bar {
     display: inline-block;
     width: $width;
