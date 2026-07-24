@@ -275,7 +275,13 @@ export const PROJECTS: ReadonlyArray<Project> = [
     name: 'brunormferreira.github.io',
     description:
       'Terminal-style portfolio built with Angular 19, matrix rain effects, and automated GitHub Pages deployment.',
-    tech: ['Angular 19', 'SCSS', 'Canvas API', 'GitHub Actions', 'GitHub Pages'],
+    tech: [
+      'Angular 19',
+      'SCSS',
+      'Canvas API',
+      'GitHub Actions',
+      'GitHub Pages',
+    ],
     url: 'https://github.com/brunormferreira/brunormferreira.github.io',
     type: 'Featured',
   },
