@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bruno Ramires — Senior Frontend Engineer</title>
+    <link>https://brunormferreira.github.io</link>
+    <description>Senior Frontend Engineer portfolio with 7+ years experience. Angular &amp; React specialist with AI-first workflow.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 24 Jul 2026 19:51:41 GMT</lastBuildDate>
+    <atom:link href="https://brunormferreira.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Posts Feature in the Portfolio</title>
+      <link>https://brunormferreira.github.io/posts/2026-07-24-feature-posts</link>
+      <guid isPermaLink="true">https://brunormferreira.github.io/posts/2026-07-24-feature-posts</guid>
+      <pubDate>Fri, 24 Jul 2026 12:00:00 GMT</pubDate>
+      <description>Building a dedicated posts area with Angular 19, category/tag filtering, and a Markdown-first workflow.</description>
+      <category>Angular</category>
+    </item>
+    <item>
+      <title>React Architecture for Long-Term Products</title>
+      <link>https://brunormferreira.github.io/posts/2026-07-23-react-architecture-playbook</link>
+      <guid isPermaLink="true">https://brunormferreira.github.io/posts/2026-07-23-react-architecture-playbook</guid>
+      <pubDate>Thu, 23 Jul 2026 12:00:00 GMT</pubDate>
+      <description>Organization principles for React in projects with multiple squads and a continuous roadmap.</description>
+      <category>React</category>
+    </item>
+  </channel>
+</rss>
