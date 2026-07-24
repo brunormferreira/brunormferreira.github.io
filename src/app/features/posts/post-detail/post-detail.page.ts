@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   ViewEncapsulation,
+  effect,
   inject,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -10,6 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { marked } from 'marked';
 import { POSTS } from '../../../content/generated/posts.generated';
 import { Post } from '../../../content/posts.models';
+import { LocaleService } from '../../../shared/services/locale.service';
 
 @Component({
   selector: 'app-post-detail-page',
@@ -59,6 +61,7 @@ import { Post } from '../../../content/posts.models';
 export class PostDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly localeService = inject(LocaleService);
 
   readonly posts = POSTS;
 
@@ -70,10 +73,14 @@ export class PostDetailPageComponent {
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
-        const slug = params.get('slug') ?? '';
-        this.activeSlug = slug;
-        this.resolvePost(slug);
+        this.activeSlug = params.get('slug') ?? '';
+        this.resolvePost(this.activeSlug);
       });
+
+    effect(() => {
+      this.localeService.locale(); // track locale changes
+      this.resolvePost(this.activeSlug);
+    });
   }
 
   formatDate(dateIso: string): string {
@@ -86,7 +93,13 @@ export class PostDetailPageComponent {
   }
 
   private resolvePost(slug: string): void {
-    const nextPost = this.posts.find((post) => post.slug === slug) ?? null;
+    const locale = this.localeService.locale();
+    // Prefer current locale; fallback to any locale if translation doesn't exist yet
+    const nextPost =
+      this.posts.find((p) => p.slug === slug && p.locale === locale) ??
+      this.posts.find((p) => p.slug === slug) ??
+      null;
+
     this.post = nextPost;
 
     if (!nextPost) {

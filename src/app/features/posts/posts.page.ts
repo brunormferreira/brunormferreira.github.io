@@ -2,13 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  computed,
   inject,
+  signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ScrollRevealDirective } from '../../shared/directives/scroll-reveal.directive';
 import { POSTS } from '../../content/generated/posts.generated';
-import { Post } from '../../content/posts.models';
+import { Locale, Post } from '../../content/posts.models';
+import { LocaleService } from '../../shared/services/locale.service';
 
 @Component({
   selector: 'app-posts-page',
@@ -25,20 +28,40 @@ import { Post } from '../../content/posts.models';
       </div>
 
       <div class="filters" appScrollReveal>
+        <div class="locale-toggle">
+          <button
+            type="button"
+            class="locale-btn"
+            [class.active]="locale() === 'pt-br'"
+            (click)="setLocale('pt-br')"
+          >
+            PT
+          </button>
+          <span class="locale-divider">|</span>
+          <button
+            type="button"
+            class="locale-btn"
+            [class.active]="locale() === 'en-us'"
+            (click)="setLocale('en-us')"
+          >
+            EN
+          </button>
+        </div>
+
         <button
           type="button"
           class="filter-btn"
-          [class.active]="activeFilter === 'all'"
+          [class.active]="activeFilter() === 'all'"
           (click)="setFilter('all')"
         >
           all
         </button>
 
-        @for (option of filterOptions; track option) {
+        @for (option of filterOptions(); track option) {
           <button
             type="button"
             class="filter-btn"
-            [class.active]="activeFilter === option"
+            [class.active]="activeFilter() === option"
             (click)="setFilter(option)"
           >
             {{ option }}
@@ -46,9 +69,9 @@ import { Post } from '../../content/posts.models';
         }
       </div>
 
-      @if (filteredPosts.length > 0) {
+      @if (filteredPosts().length > 0) {
         <div class="post-list">
-          @for (post of filteredPosts; track post.slug) {
+          @for (post of filteredPosts(); track post.slug) {
             <article class="post-card" appScrollReveal>
               <div class="post-header">
                 <time class="post-date" [attr.datetime]="post.publishedAt">
@@ -91,20 +114,49 @@ export class PostsPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly localeService = inject(LocaleService);
 
-  readonly posts = POSTS;
-  readonly filterOptions = this.buildFilterOptions(this.posts);
+  readonly locale = this.localeService.locale;
 
-  activeFilter = 'all';
-  filteredPosts = this.posts;
+  private readonly localePosts = computed(() =>
+    POSTS.filter((p) => p.locale === this.locale()),
+  );
+
+  readonly activeFilter = signal('all');
+
+  readonly filterOptions = computed(() =>
+    this.buildFilterOptions(this.localePosts()),
+  );
+
+  readonly filteredPosts = computed(() => {
+    const posts = this.localePosts();
+    const filter = this.activeFilter();
+
+    if (!filter || filter === 'all') return posts;
+
+    const normalized = filter.toLowerCase();
+    return posts.filter((post) => this.matchesFilter(post, normalized));
+  });
 
   constructor() {
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
         const nextFilter = params.get('tag') ?? 'all';
-        this.applyFilter(nextFilter);
+        this.activeFilter.set(
+          this.resolveFilterLabel(nextFilter) ?? nextFilter,
+        );
       });
+  }
+
+  setLocale(locale: Locale): void {
+    this.localeService.setLocale(locale);
+    // Reset filter when switching locale to avoid stale tag selections
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tag: null },
+      queryParamsHandling: 'merge',
+    });
   }
 
   setFilter(nextFilter: string): void {
@@ -133,18 +185,13 @@ export class PostsPageComponent {
     }).format(parsed);
   }
 
-  private applyFilter(nextFilter: string): void {
-    const normalized = nextFilter.trim().toLowerCase();
-
-    if (!normalized || normalized === 'all') {
-      this.activeFilter = 'all';
-      this.filteredPosts = this.posts;
-      return;
-    }
-
-    this.activeFilter = this.findFilterLabel(normalized) ?? nextFilter;
-    this.filteredPosts = this.posts.filter((post) =>
-      this.matchesFilter(post, normalized),
+  private resolveFilterLabel(raw: string): string | null {
+    const normalized = raw.trim().toLowerCase();
+    if (!normalized || normalized === 'all') return 'all';
+    return (
+      this.filterOptions().find(
+        (option) => option.toLowerCase() === normalized,
+      ) ?? null
     );
   }
 
@@ -161,14 +208,6 @@ export class PostsPageComponent {
     }
 
     return [...options].sort((a, b) => a.localeCompare(b));
-  }
-
-  private findFilterLabel(normalizedFilter: string): string | null {
-    return (
-      this.filterOptions.find(
-        (option) => option.toLowerCase() === normalizedFilter,
-      ) ?? null
-    );
   }
 
   private matchesFilter(post: Post, normalizedFilter: string): boolean {
