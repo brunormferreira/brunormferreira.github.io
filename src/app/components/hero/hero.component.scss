@@ -13,6 +13,24 @@
   text-align: center;
 }
 
+.hero-avatar-wrap {
+  margin: 0 auto $spacing-lg;
+}
+
+.hero-avatar {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid $text-primary;
+  box-shadow: $glow-green;
+
+  @include mobile {
+    width: 92px;
+    height: 92px;
+  }
+}
+
 .ascii-art {
   margin-bottom: $spacing-xl;
 

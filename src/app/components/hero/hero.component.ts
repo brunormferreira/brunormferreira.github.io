@@ -14,6 +14,16 @@ import {
   template: `
     <section id="hero" class="hero">
       <div class="hero-content">
+        <div class="hero-avatar-wrap">
+          <img
+            [src]="avatarUrl"
+            alt="Bruno Ramires avatar"
+            class="hero-avatar"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+
         <div class="ascii-art" aria-hidden="true">
           <pre>{{ asciiName }}</pre>
         </div>
@@ -78,4 +88,5 @@ export class HeroComponent {
   readonly roles = HERO_ROLES;
   readonly asciiName = HERO_ASCII_NAME;
   readonly cvUrl = CV_DOWNLOAD_URL;
+  readonly avatarUrl = 'https://avatars.githubusercontent.com/u/35575092?v=4';
 }
