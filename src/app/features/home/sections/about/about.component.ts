@@ -53,7 +53,7 @@ import { ABOUT_HIGHLIGHTS } from '../../../../content/portfolio-content';
             </p>
             <p class="about-text">
               <span class="line-num">7</span>
-              and Vibe Coding to multiply productivity.
+              and AI Pair-Programming to multiply productivity.
             </p>
             <p class="about-text">
               <span class="line-num">8</span>

@@ -87,7 +87,7 @@ export const ABOUT_HIGHLIGHTS: ReadonlyArray<AboutHighlight> = [
 
 export const EXPERIENCES: ReadonlyArray<Experience> = [
   {
-    period: 'Jan 2026 – Present',
+    period: 'Jan 2026 – Jul 2026',
     role: 'Software Developer',
     company: 'ilegra',
     type: 'Remote',
@@ -96,7 +96,7 @@ export const EXPERIENCES: ReadonlyArray<Experience> = [
       'Defined frontend architecture from scratch (<strong>Angular 19</strong>, standalone, PWA, Clean Architecture + DDD/CQRS)',
       'Built token-based design system with light/dark/high-contrast theming',
       'Integrated <strong>Figma MCP Agent</strong> and configured <strong>GitHub Copilot ecosystem</strong> (custom instructions, agents, skill files)',
-      'Applied <strong>Vibe Coding</strong> for rapid prototyping with Copilot Chat + Claude Code',
+      'Applied <strong>AI Pair-Programming</strong> for rapid prototyping with Copilot Chat + Claude Code',
     ],
   },
   {
@@ -198,7 +198,7 @@ export const SKILL_CATEGORIES: ReadonlyArray<SkillCategory> = [
       { name: 'Claude Code', level: 90, bar: '█████████░' },
       { name: 'Cursor', level: 85, bar: '█████████░' },
       { name: 'Figma MCP Agent', level: 90, bar: '█████████░' },
-      { name: 'Vibe Coding', level: 92, bar: '█████████░' },
+      { name: 'AI Pair-Programming', level: 92, bar: '█████████░' },
       { name: 'Prompt Engineering', level: 88, bar: '█████████░' },
     ],
   },
