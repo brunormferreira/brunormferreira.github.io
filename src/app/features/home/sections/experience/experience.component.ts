@@ -31,7 +31,7 @@ import {
               <div class="timeline-header">
                 <span class="period">{{ exp.period }}</span>
                 <span class="badge" [class.current]="i === 0">{{
-                  i === 0 ? 'CURRENT' : exp.type
+                  i === 0 ? 'REMOTE' : exp.type
                 }}</span>
               </div>
 
