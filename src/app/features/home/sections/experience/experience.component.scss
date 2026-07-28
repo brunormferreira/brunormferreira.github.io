@@ -87,11 +87,11 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 
-    &.current {
-      border-color: $text-primary;
-      color: $text-primary;
-      background: rgba(0, 255, 65, 0.1);
-    }
+    // &.current {
+    //   border-color: $text-primary;
+    //   color: $text-primary;
+    //   background: rgba(0, 255, 65, 0.1);
+    // }
   }
 }
 
